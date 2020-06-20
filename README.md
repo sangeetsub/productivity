@@ -1,2 +1,2 @@
 # ExtraPrductiveity
-To track down productiveness and help achieve extraordinary productivity
+Productivity and help achieve extraordinary productivity
