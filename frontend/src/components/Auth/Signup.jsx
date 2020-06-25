@@ -39,20 +39,15 @@ const useStyles = makeStyles((theme) => ({
 
 function SignUp(props) {
   const classes = useStyles();
-  const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lasttName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSignUp = () => {
+    console.log("handleSignupClicked");
     const token = axios
-      .post("http://localhost:8000/api/auth/signup", {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          Accept: "application/json",
-        },
-        username: username,
+      .post("http://127.0.0.1:8000/user/signup", {
         email: email,
         password: password,
         firstname: firstName,
@@ -78,19 +73,6 @@ function SignUp(props) {
         </Typography>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                autoComplete="uname"
-                name="userName"
-                variant="outlined"
-                required
-                fullWidth
-                id="userName"
-                label="userName"
-                autoFocus
-                onChange={(event) => setUsername(event.target.value)}
-              />
-            </Grid>
             <Grid item xs={12}>
               <TextField
                 autoComplete="fname"

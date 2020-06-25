@@ -15,8 +15,9 @@ const User = require("../models/User");
 router.post(
   "/signup",
   [
-    check("username", "Please Enter a Valid Username").not().isEmpty(),
     check("email", "Please enter a valid email").isEmail(),
+    check("firstname", "Please enter a valid firstname").isString(),
+    check("lastname", "Please enter a valid lastname").isString(),
     check("password", "Please enter a valid password").isLength({ min: 6 }),
   ],
   async (req, res) => {
@@ -27,26 +28,25 @@ router.post(
       });
     }
 
-    const { username, email, password } = req.body;
+    const { username, email, password, lastname, firstname } = req.body;
 
     try {
       let user = await User.findOne({ email });
 
-      console.log("1");
       if (user) {
         return res.status(400).json({
           message: "User Already Exists",
         });
       }
-      console.log("2");
-      user = User({ username, email, password });
+
+      user = User({ username, email, password, lastname, firstname });
 
       const salt = await bcrypt.genSalt(10);
-      console.log("3");
+
       user.password = await bcrypt.hash(password, salt);
-      console.log("4");
+
       await user.save();
-      console.log("5");
+
       const payload = { user: { id: user.id } };
 
       jwt.sign(payload, "randomString", { expiresIn: 10000 }, (err, token) => {
