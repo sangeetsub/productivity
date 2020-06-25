@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const user = require("./src/routes/user");
+const cors = require("cors");
 require("dotenv").config();
 
 const InitiateMongoServer = require("./config/db");
@@ -10,6 +11,8 @@ InitiateMongoServer();
 const app = express();
 
 const port = process.env.PORT || 8000;
+
+app.use(cors());
 
 //Middleware
 app.use(bodyParser.json());

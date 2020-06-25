@@ -46,15 +46,17 @@ function SignUp(props) {
 
   const handleSignUp = () => {
     console.log("handleSignupClicked");
-    const token = axios
-      .post("http://127.0.0.1:8000/user/signup", {
+    axios
+      .post("http://localhost:8000/user/signup", {
         email: email,
         password: password,
         firstname: firstName,
         lastname: lasttName,
       })
       .then(function (response) {
-        console.log(response);
+        if (response.data && response.data.token) {
+          localStorage.prodUserToken = response.data.token;
+        }
       })
       .catch(function (error) {
         console.log(error);
