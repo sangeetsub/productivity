@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import axios from 'axios'
 
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -42,7 +43,19 @@ function SignIn(props) {
   const [password, setPassword] = useState("");
 
   const handleSignin = () => {
-    // axiosAuth(email,password);
+    axios
+      .post("http://localhost:8000/user/login", {
+        email: email,
+        password: password,
+      })
+      .then(function (response) {
+        if (response.data && response.data.token) {
+          localStorage.prodUserToken = response.data.token;
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
   const handleEmailInput = (event) => {
     setEmail(event.target.value);

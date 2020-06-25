@@ -32,8 +32,8 @@ function App() {
         </div>
         <div className="App">
           <h2> Five Choices of Extraordinary Productivity. </h2>
-          {/* <Signin />
-          <Signup /> */}
+          <Signin />
+          {/* <Signup /> */}
           {/* <ol>
             <li> Act on the Important, don't react to the urgent. </li>
             <li>Go for Extraordinary, don't settle for ordinary</li>
