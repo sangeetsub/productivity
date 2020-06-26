@@ -97,8 +97,6 @@ router.post(
         user: { id: user.id },
       };
 
-      console.log(payload);
-
       jwt.sign(payload, "randomString", { expiresIn: 3600 }, (err, token) => {
         if (err) throw err;
         res.status(200).json({ token });

@@ -1,5 +1,8 @@
 import React from "react";
 import "./App.css";
+import store from "./store/store";
+import { Provider } from "react-redux";
+
 // import Dashboard from "./components/Dashboard";
 import TimeMetrix from "./components/TimeMetrix";
 import HeaderBar from "./components/HeaderBar";
@@ -8,6 +11,7 @@ import Signin from "./components/Auth/Signin";
 import Signup from "./components/Auth/Signup";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import Home from "./components/Home";
 
 function App() {
   const theme = createMuiTheme({
@@ -25,50 +29,22 @@ function App() {
     },
   });
   return (
-    <ThemeProvider theme={theme}>
-      <Router>
-        <div>
-          <HeaderBar />
-        </div>
-        <div className="App">
-          <h2> Five Choices of Extraordinary Productivity. </h2>
-          <Signin />
-          {/* <Signup /> */}
-          {/* <ol>
-            <li> Act on the Important, don't react to the urgent. </li>
-            <li>Go for Extraordinary, don't settle for ordinary</li>
-            <li>Schedule the big rocks, don't sort the Gravel.</li>
-            <li>Rule your technology, don't let it rule you, </li>
-            <li>Fuel your fire, don't burn out.</li>
-          </ol> */}
-          {/* <TimeMetrix /> */}
-          <Switch>
-            {/* <Route path="/todos"> */}
-            {/* <DiscreteSlider
-              defaultValue={4}
-              step={1}
-              min={1}
-              max={10}
-              title={"Your Sleep rating"}
-            /> */}
-            {/* <TimeMetrix /> */}
-            {/* </Route> */}
-            <Route path="/">
-              <Signup />
-            </Route>
-            <Route path="/a">
-              <Signin />
-            </Route>
-            <Route exact path="productivity/signin">
-              <Signin />
-            </Route>
-            <Route exact path="productivity/signup">
-              <Signup />
-            </Route>
-          </Switch>
-        </div>
-      </Router>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <Router>
+          <div>
+            <HeaderBar />
+          </div>
+          <div className="App">
+            <Switch>
+              <Route component={Home} exact path="/" />
+              <Route component={Signin} path="/signin" />
+              <Route component={Signup} path="/signup" />
+            </Switch>
+          </div>
+        </Router>
+      </ThemeProvider>
+    </Provider>
   );
 }
 
