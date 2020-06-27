@@ -1,5 +1,5 @@
 {
-  "homepage": "http://sangeetsub.github.io",
+  "homepage": "http://sangeetsub.github.io/",
   "name": "productivity",
   "version": "0.1.0",
   "private": true,
@@ -13,6 +13,7 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "history": "^5.0.0",
+    "jwt-decode": "^2.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
@@ -21,7 +22,6 @@
     "redux": "^4.0.5",
     "redux-devtools": "^3.5.0",
     "redux-devtools-extension": "^2.13.8",
-    "jwt-decode": "^2.2.0",
     "redux-thunk": "^2.3.0"
   },
   "scripts": {

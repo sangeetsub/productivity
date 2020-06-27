@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import axios from 'axios'
+import axios from "axios";
 
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -51,6 +51,7 @@ function SignIn(props) {
       .then(function (response) {
         if (response.data && response.data.token) {
           localStorage.prodUserToken = response.data.token;
+          window.location.href = "/";
         }
       })
       .catch(function (error) {
@@ -112,20 +113,7 @@ function SignIn(props) {
           >
             Sign In
           </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Button
-                size="small"
-                variant="text"
-                color="primary"
-                onClick={() => {
-                  // props.displaySignup(true);
-                }}
-              >
-                Don't have an account? Sign Up!
-              </Button>
-            </Grid>
-          </Grid>
+          
         </form>
       </div>
     </Container>

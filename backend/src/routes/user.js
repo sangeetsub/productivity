@@ -118,7 +118,15 @@ router.post(
 router.get("/me", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
-    res.json(user);
+    
+    //taking out password and createdAt
+    const { _id, email, firstname, lastname } = user;
+    const returnUser = {
+      id: _id,
+      email: email,
+      name: `${firstname} ${lastname}`,
+    };
+    res.json(returnUser);
   } catch (e) {
     res.send({ message: "Error in Fetching user." });
   }

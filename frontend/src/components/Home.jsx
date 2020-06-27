@@ -1,10 +1,13 @@
 import React from "react";
+import TimeMetrix from "./TimeMetrix";
+
 
 function Home() {
   return (
     <div>
       <h2> Five Choices of Extraordinary Productivity. </h2>
-      <h1> HomePage</h1>
+      <TimeMetrix />
+     
     </div>
   );
 }

@@ -1,6 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const user = require("./src/routes/user");
+const task = require("./src/routes/task");
+
 const cors = require("cors");
 require("dotenv").config();
 
@@ -28,39 +30,13 @@ app.get("/", (req, res) => {
  */
 app.use("/user", user);
 
+/**
+ * Router Middleware
+ * Router = /task/*
+ * Method - *
+ */
+app.use("/task", task);
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
-
-// const mongoose = require("mongoose");
-// const routes = require("./src/routes/api");
-// const path = require("path");
-
-//connect to the database
-// mongoose
-//   .connect(process.env.DB, { useNewUrlParser: true, useUnifiedTopology: true })
-//   .then(() => console.log(`Database Connected Successfully.`))
-//   .catch((err) => console.log(err));
-
-// // since mongoose promise is depricated, we override it with node's promise
-// mongoose.Promise = global.Promise;
-
-// app.use((req, res, next) => {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   next();
-// });
-
-// app.use("/api", routes);
-
-// app.use((req, res, next) => {
-//   res.send("Welcome to Express");
-// });
-
-// app.use((err, req, res, next) => {
-//   console.log(err);
-//   next();
-// });

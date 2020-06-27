@@ -135,18 +135,6 @@ function SignUp(props) {
           >
             Sign Up
           </Button>
-          <Grid container justify="flex-end">
-            <Button
-              size="small"
-              variant="text"
-              color="primary"
-              onClick={() => {
-                // props.displaySignin(true);
-              }}
-            >
-              Already Have an Account? Sign In
-            </Button>
-          </Grid>
         </form>
       </div>
     </Container>

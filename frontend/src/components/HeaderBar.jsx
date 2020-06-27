@@ -19,8 +19,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ButtonAppBar() {
+export default function ButtonAppBar(props) {
   const classes = useStyles();
+
+  const handleLogout = () => {
+    delete localStorage.prodUserToken;
+    window.location.href = "/signin";
+  };
 
   return (
     <div className={classes.root}>
@@ -37,7 +42,27 @@ export default function ButtonAppBar() {
           <Typography variant="h6" className={classes.title}>
             ExtraProductive
           </Typography>
-          <Button color="inherit">Login</Button>
+          {!props.isLoggedIn && (
+            <Button
+              color="inherit"
+              onClick={() => (window.location.href = "/signin")}
+            >
+              Login
+            </Button>
+          )}
+          {!props.isLoggedIn && (
+            <Button
+              color="inherit"
+              onClick={() => (window.location.href = "/signup")}
+            >
+              Signup
+            </Button>
+          )}
+          {props.isLoggedIn && (
+            <Button color="inherit" onClick={handleLogout}>
+              Logout
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </div>

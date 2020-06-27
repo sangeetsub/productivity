@@ -1,22 +1,58 @@
 import React, { useEffect } from "react";
-import { Calendar } from "@fullcalendar/core";
-import dayGridPlugin from "@fullcalendar/daygrid";
+
+import axios from "axios";
+import { useState } from "react";
+import { Grid } from "@material-ui/core";
+import InsertTask from "./forms/InsertTask";
 
 function TimeMetrix() {
+  const [myTasks, setMyTasks] = useState([]);
+
   useEffect(() => {
-    document.addEventListener("DOMContentLoaded", function () {
-      var calendarEl = document.getElementById("calendar");
-
-      var calendar = new Calendar(calendarEl, {
-        plugins: [dayGridPlugin],
+    axios
+      .get("http://localhost:8000/task/tasks")
+      .then(function (response) {
+        // handle success
+        setMyTasks(response.data);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      .then(function () {
+        // always executed
       });
+  }, [false]);
 
-      calendar.render();
-    });
-    return () => {};
-  }, []);
+  const taskMapper = () => {
+    let taskDescription = "No Tasks Yet";
 
-  return <div>Cal</div>;
+    if (myTasks !== null && myTasks.length > 0) {
+      taskDescription = myTasks.map((task) => (
+        <div key={task._id}>
+          <h2> {task.name}</h2>
+          Description : {task.description}
+          userId : {task.userId}
+        </div>
+      ));
+    }
+
+    return taskDescription;
+  };
+
+  return (
+    <div>
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <h1> My Tasks </h1>
+          {myTasks && taskMapper()}
+        </Grid>
+        <Grid item xs={6}>
+          <InsertTask />
+        </Grid>
+      </Grid>
+    </div>
+  );
 }
 
 export default TimeMetrix;
