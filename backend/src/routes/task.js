@@ -45,9 +45,10 @@ taskRouter.post(
  * @param - /task/task
  * @description - Get LoggedIn User
  */
-taskRouter.get("/tasks", async (req, res) => {
+taskRouter.get("/tasks/id", async (req, res) => {
   try {
-    const tasks = await Task.find();
+    const userId = Object.keys(req.query)[0];
+    const tasks = await Task.find({}).where({ userId: userId });
     res.json(tasks);
   } catch (e) {
     res.send({ message: "Error in Fetching user." });

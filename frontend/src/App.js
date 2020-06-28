@@ -71,7 +71,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <Router>
           <div>
-            <HeaderBar isLoggedIn={isLoggedIn}/>
+            <HeaderBar isLoggedIn={isLoggedIn} />
           </div>
           <div className="App">
             <Switch>

@@ -21,6 +21,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
+import { getUser } from "../../services/auth";
 
 // try to convert forms t tu use from react-hook-form
 
@@ -57,6 +58,8 @@ function InsertTask(props) {
     setValue(event.target.value);
   };
 
+  const { user } = props;
+
   const handleInsertTask = () => {
     console.log("handle insert clicked");
     axios
@@ -65,7 +68,7 @@ function InsertTask(props) {
         description: description,
         importancy: importancy,
         urgency: urgency,
-        userId: "testuserid",
+        userId: user.id,
       })
       .then(function (response) {
         console.log(response);
@@ -190,5 +193,11 @@ const mapDispatchToProps = {
   //displaySignin,
 };
 
-export default InsertTask;
-// export default connect(null, mapDispatchToProps)(SignUp);
+const mapStateToProps = function (state) {
+  return {
+    user: getUser(state),
+  };
+};
+
+//export default InsertTask;
+export default connect(mapStateToProps, mapDispatchToProps)(InsertTask);

@@ -1,28 +1,31 @@
 import React, { useEffect } from "react";
-
+import { connect } from "react-redux";
 import axios from "axios";
 import { useState } from "react";
 import { Grid } from "@material-ui/core";
 import InsertTask from "./forms/InsertTask";
+import { getUser } from "../services/auth";
 
-function TimeMetrix() {
+function TimeMetrix(props) {
   const [myTasks, setMyTasks] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8000/task/tasks")
-      .then(function (response) {
-        // handle success
-        setMyTasks(response.data);
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      })
-      .then(function () {
-        // always executed
-      });
-  }, [false]);
+    if (props.user && props.user.id) {
+      axios
+        .get(`http://localhost:8000/task/tasks/id?${props.user.id}`)
+        .then(function (response) {
+          // handle success
+          setMyTasks(response.data);
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        })
+        .then(function () {
+          // always executed
+        });
+    }
+  }, [props.user.id]);
 
   const taskMapper = () => {
     let taskDescription = "No Tasks Yet";
@@ -31,8 +34,8 @@ function TimeMetrix() {
       taskDescription = myTasks.map((task) => (
         <div key={task._id}>
           <h2> {task.name}</h2>
-          Description : {task.description}
-          userId : {task.userId}
+          <h4>Description</h4> : {task.description}
+          <h4>User Id : </h4> : {task.userId}
         </div>
       ));
     }
@@ -55,4 +58,9 @@ function TimeMetrix() {
   );
 }
 
-export default TimeMetrix;
+const mapStateToProps = function (state) {
+  return {
+    user: getUser(state),
+  };
+};
+export default connect(mapStateToProps)(TimeMetrix);
