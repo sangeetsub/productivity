@@ -45,7 +45,7 @@ export default function ButtonAppBar(props) {
           {!props.isLoggedIn && (
             <Button
               color="inherit"
-              onClick={() => (window.location.href = "/signin")}
+             
             >
               Login
             </Button>
@@ -53,7 +53,7 @@ export default function ButtonAppBar(props) {
           {!props.isLoggedIn && (
             <Button
               color="inherit"
-              onClick={() => (window.location.href = "/signup")}
+             
             >
               Signup
             </Button>

@@ -43,11 +43,10 @@ function App() {
       } else {
         console.log("Token is no longer valid");
         delete localStorage.prodUserToken;
-        localStorage.noToken = true;
         window.location.href = "/signin";
       }
     } else {
-      console.log("No Token, Please signup");
+      console.log("No Token, Please signin");
     }
   });
 

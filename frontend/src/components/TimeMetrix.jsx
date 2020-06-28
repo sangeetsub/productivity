@@ -2,9 +2,10 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import { useState } from "react";
-import { Grid } from "@material-ui/core";
+import { Grid, Paper, Typography } from "@material-ui/core";
 import InsertTask from "./forms/InsertTask";
 import { getUser } from "../services/auth";
+import { taskDescriptionMapper } from "../utils/task";
 
 function TimeMetrix(props) {
   const [myTasks, setMyTasks] = useState([]);
@@ -31,13 +32,17 @@ function TimeMetrix(props) {
     let taskDescription = "No Tasks Yet";
 
     if (myTasks !== null && myTasks.length > 0) {
-      taskDescription = myTasks.map((task) => (
-        <div key={task._id}>
+      const category = (taskDescription = myTasks.map((task) => (
+        <Paper key={task._id} style={{ background: "#C7F0DB" }}>
           <h2> {task.name}</h2>
-          <h4>Description</h4> : {task.description}
-          <h4>User Id : </h4> : {task.userId}
-        </div>
-      ));
+          <Typography align="left">
+            <b>Description: </b> {task.description}
+            <b>
+              Priority: {taskDescriptionMapper[task.urgency][task.importancy]}
+            </b>
+          </Typography>
+        </Paper>
+      )));
     }
 
     return taskDescription;

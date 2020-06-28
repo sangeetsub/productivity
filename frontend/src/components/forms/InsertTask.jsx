@@ -6,7 +6,6 @@ import Button from "@material-ui/core/Button";
 import axios from "axios";
 
 import TextField from "@material-ui/core/TextField";
-import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
@@ -23,7 +22,7 @@ import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import { getUser } from "../../services/auth";
 
-// try to convert forms t tu use from react-hook-form
+// try to convert forms to use from react-hook-form
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -199,5 +198,4 @@ const mapStateToProps = function (state) {
   };
 };
 
-//export default InsertTask;
 export default connect(mapStateToProps, mapDispatchToProps)(InsertTask);
