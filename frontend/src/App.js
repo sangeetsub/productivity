@@ -46,9 +46,9 @@ function App() {
         window.location.href = "/signin";
       }
     } else {
-      console.log("No Token, Please signin");
+      // there is no token
     }
-  });
+  }, [token]);
 
   const theme = createMuiTheme({
     palette: {
