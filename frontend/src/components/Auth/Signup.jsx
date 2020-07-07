@@ -56,6 +56,7 @@ function SignUp(props) {
       .then(function (response) {
         if (response.data && response.data.token) {
           localStorage.prodUserToken = response.data.token;
+          props.history.push('/');
         }
       })
       .catch(function (error) {

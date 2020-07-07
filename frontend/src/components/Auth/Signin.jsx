@@ -51,6 +51,7 @@ function SignIn(props) {
       .then(function (response) {
         if (response.data && response.data.token) {
           localStorage.prodUserToken = response.data.token;
+          window.location.href = "/";
         }
       })
       .catch(function (error) {

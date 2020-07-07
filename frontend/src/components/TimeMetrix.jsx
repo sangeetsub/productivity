@@ -4,8 +4,9 @@ import axios from "axios";
 import { useState } from "react";
 import { Grid, Paper, Typography } from "@material-ui/core";
 import InsertTask from "./forms/InsertTask";
-import { getUser } from "../services/auth";
+import { getUser, isAuthenticated } from "../services/auth";
 import { taskDescriptionMapper } from "../utils/task";
+import { Link } from "react-router-dom";
 
 function TimeMetrix(props) {
   const [myTasks, setMyTasks] = useState([]);
@@ -41,6 +42,7 @@ function TimeMetrix(props) {
               Priority: {taskDescriptionMapper[task.urgency][task.importancy]}
             </b>
           </Typography>
+          <Link to={`/task/${task._id}`}> More Details </Link>
         </Paper>
       )));
     }
@@ -48,17 +50,23 @@ function TimeMetrix(props) {
     return taskDescription;
   };
 
+  const { isAuth } = props;
+  console.log(isAuth);
   return (
     <div>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <h1> My Tasks </h1>
-          {myTasks && taskMapper()}
+      {isAuth ? (
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <h1> My Tasks </h1>
+            {myTasks && taskMapper()}
+          </Grid>
+          <Grid item xs={6}>
+            <InsertTask />
+          </Grid>
         </Grid>
-        <Grid item xs={6}>
-          <InsertTask />
-        </Grid>
-      </Grid>
+      ) : (
+        <h3>You're not logged in. </h3>
+      )}
     </div>
   );
 }
@@ -66,6 +74,7 @@ function TimeMetrix(props) {
 const mapStateToProps = function (state) {
   return {
     user: getUser(state),
+    isAuth: isAuthenticated(state),
   };
 };
 export default connect(mapStateToProps)(TimeMetrix);

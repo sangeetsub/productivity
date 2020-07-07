@@ -10,3 +10,10 @@ export const getUser = (state) => {
   } = state;
   return user;
 };
+
+export const isAuthenticated = (state) => {
+  const {
+    auth: { isAuthenticated },
+  } = state;
+  return isAuthenticated;
+};
