@@ -6,6 +6,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
+import HomeIcon from "@material-ui/icons/Home";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Link } from "react-router-dom";
 import { isAuthenticated } from "../services/auth";
@@ -54,7 +55,7 @@ function ButtonAppBar(props) {
             color="inherit"
             aria-label="menu"
           >
-            <MenuIcon />
+            <HomeIcon onClick={() => rerouteTo("/")} />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             ExtraProductive

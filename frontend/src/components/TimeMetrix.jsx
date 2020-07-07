@@ -7,6 +7,7 @@ import InsertTask from "./forms/InsertTask";
 import { getUser, isAuthenticated } from "../services/auth";
 import { taskDescriptionMapper } from "../utils/task";
 import { Link } from "react-router-dom";
+import background from "../images/background.jpg";
 
 function TimeMetrix(props) {
   const [myTasks, setMyTasks] = useState([]);
@@ -65,7 +66,9 @@ function TimeMetrix(props) {
           </Grid>
         </Grid>
       ) : (
-        <h3>You're not logged in. </h3>
+        <div>
+          <img src={background} width={"100%"} />;
+        </div>
       )}
     </div>
   );
