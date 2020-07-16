@@ -54,8 +54,9 @@ function ButtonAppBar(props) {
             className={classes.menuButton}
             color="inherit"
             aria-label="menu"
+            onClick={() => rerouteTo("/")}
           >
-            <HomeIcon onClick={() => rerouteTo("/")} />
+            <HomeIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             ExtraProductive
