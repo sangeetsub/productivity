@@ -4,8 +4,8 @@ export const taskDescriptionMapper = [
 ];
 
 export const taskQuarterMapper = [
-  [[4], [2]],
-  [[3], [1]],
+  [4, 2],
+  [3, 1],
 ];
 
 export const taskDescriptionsByQuarter = [
@@ -24,7 +24,7 @@ export const taskInQArray = (myTasks) => {
   const tasks = new Array(5).fill(0).map(() => []);
   if (myTasks !== null && myTasks.length > 0) {
     myTasks.forEach((task) => {
-      const index = taskQuarterMapper[task.urgency][task.importancy][0];
+      const index = taskQuarterMapper[task.urgency][task.importancy];
       tasks[index] = [...tasks[index], task];
     });
   }

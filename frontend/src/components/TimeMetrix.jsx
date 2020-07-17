@@ -2,9 +2,30 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import { useState } from "react";
-import { Grid, Paper, Typography } from "@material-ui/core";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import {
+  Grid,
+  Paper,
+  Typography,
+  CardHeader,
+  Card,
+  IconButton,
+  CardContent,
+  Avatar,
+  CardActions,
+  Button,
+  ListItemSecondaryAction,
+  ListItemIcon,
+  Menu,
+  Fade,
+  MenuItem,
+} from "@material-ui/core";
 import InsertTask from "./forms/InsertTask";
 import { getUser, isAuthenticated } from "../services/auth";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import Divider from "@material-ui/core/Divider";
+import ListItemText from "@material-ui/core/ListItemText";
 import {
   taskDescriptionMapper,
   taskQuarterMapper,
@@ -16,6 +37,17 @@ import background from "../images/background.jpg";
 
 function TimeMetrix(props) {
   const [myTasks, setMyTasks] = useState([]);
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const menuOpen = Boolean(anchorEl);
+
+  const handleActionMenuClicked = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleActionMenuClose = () => {
+    setAnchorEl(null);
+  };
 
   useEffect(() => {
     if (props.user && props.user.id) {
@@ -42,18 +74,50 @@ function TimeMetrix(props) {
     if (quarterTasks && quarterTasks.length > 0) {
       const qtask = quarterTasks.map((task) => {
         return (
-          <Paper key={task._id} style={{ background: "#C7F0DB" }}>
-            <h2> {task.name}</h2>
-            <Typography align="left">
-              <b>Description: </b> {task.description}
-            </Typography>
-            <Link to={`/task/${task._id}`}> More Details </Link>
-          </Paper>
+          <React.Fragment  key={task._id}>
+            <ListItem
+              key={task._id}
+              style={{ background: "#C7F0DB" }}
+              divider
+              button
+              onClick={() => {
+                props.history.push(`/task/${task._id}`);
+              }}
+              alignItems="flex-start"
+            >
+              <ListItemIcon>
+                <Avatar></Avatar>
+              </ListItemIcon>
+              <ListItemText
+                primary={<Typography variant="h6">{task.name}</Typography>}
+                secondary={<Typography>{task.description}</Typography>}
+              ></ListItemText>
+              <ListItemSecondaryAction>
+                <IconButton
+                  edge="end"
+                  
+                  onClick={handleActionMenuClicked}
+                >
+                  <MoreVertIcon />
+                </IconButton>
+                <Menu
+                  id="fade-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={menuOpen}
+                  onClose={handleActionMenuClose}
+                >
+                  <MenuItem onClick={handleActionMenuClose}>Delete</MenuItem>
+                  <MenuItem onClick={handleActionMenuClose}>Edit</MenuItem>
+                </Menu>
+              </ListItemSecondaryAction>
+            </ListItem>
+          </React.Fragment>
         );
       });
       return (
         <div>
-          {makeTaskHeader(quarter)} <div>{qtask}</div>
+          {makeTaskHeader(quarter)} <List>{qtask}</List>
         </div>
       );
     }
