@@ -51,9 +51,8 @@ const getAllTasks = (state) => {
 };
 
 const deleteSingleTask = (task) => (dispatch) => {
-  console.log(task);
   const quarter = taskQuarterMapper[task.urgency][task.importancy];
-  dispatch(deleteATask(task, quarter));
+  dispatch(deleteATask(task._id, quarter));
 };
 
 export { fetchTasks, insertSingleTask, getAllTasks, deleteSingleTask };
