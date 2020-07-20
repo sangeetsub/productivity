@@ -1,53 +1,36 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
-import { useState } from "react";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import {
-  Grid,
-  Paper,
-  Typography,
-  CardHeader,
-  Card,
-  IconButton,
-  CardContent,
-  Avatar,
-  CardActions,
-  Button,
-  ListItemSecondaryAction,
-  ListItemIcon,
-  Menu,
-  Fade,
-  MenuItem,
-} from "@material-ui/core";
+import TaskComponent from "./TaskComponent";
+
+import { Grid, Button, Typography } from "@material-ui/core";
 import InsertTask from "./forms/InsertTask";
 import { getUser, isAuthenticated } from "../services/auth";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import Divider from "@material-ui/core/Divider";
-import ListItemText from "@material-ui/core/ListItemText";
-import {
-  taskDescriptionMapper,
-  taskQuarterMapper,
-  taskInQArray,
-  taskDescriptionsByQuarter,
-} from "../utils/task";
+import { taskInQArray, taskDescriptionsByQuarter } from "../utils/task";
 import { Link } from "react-router-dom";
 import background from "../images/background.jpg";
+import AddBoxIcon from "@material-ui/icons/AddBox";
+import { makeStyles, withTheme } from "@material-ui/core/styles";
+import AppDialog from "./AppDialog";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "98%",
+    margin: "auto",
+    paddingTop: "5px",
+  },
+  quarterDiv: {
+    borderRadius: 10,
+    boxShadow: "2px 2px 2px 2px #092923",
+    padding: "2px",
+  },
+}));
 
 function TimeMetrix(props) {
   const [myTasks, setMyTasks] = useState([]);
+  const [openInsert, setOpenInsert] = useState(false);
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const menuOpen = Boolean(anchorEl);
-
-  const handleActionMenuClicked = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleActionMenuClose = () => {
-    setAnchorEl(null);
-  };
+  const classes = useStyles();
 
   useEffect(() => {
     if (props.user && props.user.id) {
@@ -71,57 +54,22 @@ function TimeMetrix(props) {
 
   const getQSpecificTasks = (quarter) => {
     const quarterTasks = tasksQArr[quarter];
+    let qtask = [];
     if (quarterTasks && quarterTasks.length > 0) {
-      const qtask = quarterTasks.map((task) => {
+      qtask = quarterTasks.map((task) => {
         return (
-          <React.Fragment  key={task._id}>
-            <ListItem
-              key={task._id}
-              style={{ background: "#C7F0DB" }}
-              divider
-              button
-              onClick={() => {
-                props.history.push(`/task/${task._id}`);
-              }}
-              alignItems="flex-start"
-            >
-              <ListItemIcon>
-                <Avatar></Avatar>
-              </ListItemIcon>
-              <ListItemText
-                primary={<Typography variant="h6">{task.name}</Typography>}
-                secondary={<Typography>{task.description}</Typography>}
-              ></ListItemText>
-              <ListItemSecondaryAction>
-                <IconButton
-                  edge="end"
-                  
-                  onClick={handleActionMenuClicked}
-                >
-                  <MoreVertIcon />
-                </IconButton>
-                <Menu
-                  id="fade-menu"
-                  anchorEl={anchorEl}
-                  keepMounted
-                  open={menuOpen}
-                  onClose={handleActionMenuClose}
-                >
-                  <MenuItem onClick={handleActionMenuClose}>Delete</MenuItem>
-                  <MenuItem onClick={handleActionMenuClose}>Edit</MenuItem>
-                </Menu>
-              </ListItemSecondaryAction>
-            </ListItem>
-          </React.Fragment>
+          <TaskComponent key={task._id} task={task} history={props.history} />
         );
       });
-      return (
-        <div>
-          {makeTaskHeader(quarter)} <List>{qtask}</List>
-        </div>
-      );
+    } else {
+      qtask = <Typography> No Tasks available </Typography>;
     }
-    return null;
+    return (
+      <div className={classes.quarterDiv}>
+        {makeTaskHeader(quarter)}
+        {qtask}
+      </div>
+    );
   };
 
   const makeTaskHeader = (quarter) => {
@@ -129,28 +77,54 @@ function TimeMetrix(props) {
       <h4>{`Quarter ${quarter} : ${taskDescriptionsByQuarter[quarter]}`}</h4>
     );
   };
+  const handleAddTaskButton = () => {
+    setOpenInsert(true);
+  };
+  const componentHeader = () => {
+    return (
+      <Grid container spacing={3} direction={"row-reverse"}>
+        <Grid item>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={handleAddTaskButton}
+          >
+            <AddBoxIcon /> Task
+          </Button>
+        </Grid>
+      </Grid>
+    );
+  };
   const { isAuth } = props;
   return (
-    <div>
+    <div className={classes.root}>
       {isAuth && myTasks ? (
-        <Grid container spacing={2}>
-          <Grid item xs={3}>
-            {console.log("rendered tass")}
-            {getQSpecificTasks(1)}
-          </Grid>
-          <Grid item xs={3}>
-            {getQSpecificTasks(2)}
-          </Grid>
-          <Grid item xs={3}>
-            {getQSpecificTasks(3)}
-          </Grid>
-          <Grid item xs={3}>
-            {getQSpecificTasks(4)}
-          </Grid>
-          {/* <Grid item xs={6}>
+        <React.Fragment>
+          {componentHeader()}
+          <Grid container spacing={2}>
+            <Grid item xs={3}>
+              {getQSpecificTasks(1)}
+            </Grid>
+            <Grid item xs={3}>
+              {getQSpecificTasks(2)}
+            </Grid>
+            <Grid item xs={3}>
+              {getQSpecificTasks(3)}
+            </Grid>
+            <Grid item xs={3}>
+              {getQSpecificTasks(4)}
+            </Grid>
+            {/* <Grid item xs={6}>
             <InsertTask />
           </Grid> */}
-        </Grid>
+          </Grid>
+          <AppDialog
+            title="Insert Task"
+            open={openInsert}
+            onClose={() => setOpenInsert(false)}
+            body={<InsertTask />}
+          />
+        </React.Fragment>
       ) : (
         <div>
           <img src={background} width={"100%"} />;

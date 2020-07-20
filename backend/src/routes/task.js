@@ -7,7 +7,7 @@ const Task = require("../models/Task");
 /**
  * @method - POST
  * @param - /insert
- * @description - User Signup
+ * @description - Insert a new task
  */
 taskRouter.post(
   "/insert",
@@ -43,7 +43,7 @@ taskRouter.post(
 /**
  * @method - GET
  * @param - /task/task
- * @description - Get LoggedIn User
+ * @description - returns task for specific user by userId task.
  */
 taskRouter.get("/tasks/id", async (req, res) => {
   try {
@@ -51,7 +51,22 @@ taskRouter.get("/tasks/id", async (req, res) => {
     const tasks = await Task.find({}).where({ userId: userId });
     res.json(tasks);
   } catch (e) {
-    res.send({ message: "Error in Fetching user." });
+    res.send({ message: "Error in getting task. user." });
+  }
+});
+
+/**
+ * @method - DELETE
+ * @param - /task/task
+ * @description - Delete a task.
+ */
+taskRouter.delete("/tasks/id", async (req, res) => {
+  const taskId = Object.keys(req.query)[0];
+  try {
+    await Task.findByIdAndDelete(taskId);
+    res.send({ message: "Task deleted successfully" });
+  } catch (e) {
+    res.send({ message: "Error in deleting task" });
   }
 });
 

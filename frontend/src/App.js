@@ -55,6 +55,9 @@ function App() {
         light: "#6ff9ff",
         dark: "#0095a8",
       },
+      warning: {
+        main: "##BF2727",
+      },
     },
   });
 
