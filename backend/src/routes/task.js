@@ -12,7 +12,7 @@ const Task = require("../models/Task");
 taskRouter.post(
   "/insert",
   [
-    check("name", "Please enter a valid email").isString(),
+    check("name", "Please enter a valid task name").isString(),
     check("description", "Please enter a valid description").isString(),
     check("urgency", "Please enter a valid urgency").isNumeric(),
     check("importancy", "Please enter a valid password").isNumeric(),
@@ -24,15 +24,12 @@ taskRouter.post(
         errors: errors.array(),
       });
     }
+    console.log(req.body)
     const { name, description, urgency, importancy, userId } = req.body;
     try {
       task = Task({ name, description, urgency, importancy, userId });
-
-      console.log(task);
-
       await task.save();
-
-      res.status(200).send("Inserted successfully");
+      res.json(task);
     } catch (err) {
       console.log(err.message);
       res.status(500).send("Error in saving");

@@ -7,6 +7,8 @@ import axios from "axios";
 import { useState } from "react";
 import ConfirmDialogModal from "./ConfirmDialogModal";
 import { Alert, AlertTitle } from "@material-ui/lab";
+import { deleteSingleTask} from '../services/tasks'
+import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,12 +39,15 @@ function TaskComponent(props) {
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [alert, setAlert] = useState(null);
+  const { deleteSingleTask} = props; 
 
-  const deleteTask = (taskId) => {
+  const deleteTask = (task) => {
     axios
-      .delete(`http://localhost:8000/task/tasks/id?${taskId}`)
+      .delete(`http://localhost:8000/task/tasks/id?${task._id}`)
       .then(function (response) {
+        console.log(response)
         setAlert({ type: "success", message: "Your task has been deleted." });
+        deleteSingleTask(task)
       })
       .catch(function (error) {
         setAlert({ type: "error", message: "Your task could not be deleted." });
@@ -67,7 +72,7 @@ function TaskComponent(props) {
         onClose={() => setOpenDeleteModal(false)}
         confirmText={`Are you sure you want to delete ${task.name}`}
         onAgree={() => {
-          deleteTask(task._id);
+          deleteTask(task);
         }}
       />
       {alert && <Alert severity={alert.type}>{alert.message}</Alert>}
@@ -133,4 +138,8 @@ function TaskComponent(props) {
   );
 }
 
-export default TaskComponent;
+const mapDispatchToProps = {
+  deleteSingleTask
+}
+
+export default connect(null, mapDispatchToProps)(TaskComponent) ;

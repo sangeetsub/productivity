@@ -12,6 +12,7 @@ import background from "../images/background.jpg";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import { makeStyles, withTheme } from "@material-ui/core/styles";
 import AppDialog from "./AppDialog";
+import { fetchTasks, getAllTasks } from "../services/tasks";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,33 +28,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function TimeMetrix(props) {
-  const [myTasks, setMyTasks] = useState([]);
   const [openInsert, setOpenInsert] = useState(false);
 
   const classes = useStyles();
 
+  const { fetchTasks, myTasks } = props;
+
   useEffect(() => {
     if (props.user && props.user.id) {
-      axios
-        .get(`http://localhost:8000/task/tasks/id?${props.user.id}`)
-        .then(function (response) {
-          // handle success
-          setMyTasks(response.data);
-        })
-        .catch(function (error) {
-          // handle error
-          console.log(error);
-        })
-        .then(function () {
-          // always executed
-        });
+      fetchTasks(props.user.id);
     }
   }, [props.user.id]);
 
-  const tasksQArr = taskInQArray(myTasks);
-
   const getQSpecificTasks = (quarter) => {
-    const quarterTasks = tasksQArr[quarter];
+    const quarterTasks = myTasks[`quarter_${quarter}`]
+      ? Object.values(myTasks[`quarter_${quarter}`])
+      : [];
     let qtask = [];
     if (quarterTasks && quarterTasks.length > 0) {
       qtask = quarterTasks.map((task) => {
@@ -138,6 +128,12 @@ const mapStateToProps = function (state) {
   return {
     user: getUser(state),
     isAuth: isAuthenticated(state),
+    myTasks: getAllTasks(state),
   };
 };
-export default connect(mapStateToProps)(TimeMetrix);
+
+const mapDispatchToProps = {
+  fetchTasks,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TimeMetrix);

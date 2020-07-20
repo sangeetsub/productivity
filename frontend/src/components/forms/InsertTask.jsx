@@ -14,6 +14,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import { getUser } from "../../services/auth";
+import { insertSingleTask } from "../../services/tasks";
 
 // try to convert forms to use from react-hook-form
 
@@ -49,10 +50,9 @@ function InsertTask(props) {
     setValue(event.target.value);
   };
 
-  const { user } = props;
+  const { user, insertSingleTask } = props;
 
   const handleInsertTask = () => {
-    console.log("handle insert clicked");
     axios
       .post("http://localhost:8000/task/insert", {
         name: taskName,
@@ -62,7 +62,7 @@ function InsertTask(props) {
         userId: user.id,
       })
       .then(function (response) {
-        console.log(response);
+        insertSingleTask(response.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -173,14 +173,14 @@ function InsertTask(props) {
   );
 }
 
-const mapDispatchToProps = {
-  //displaySignin,
-};
-
 const mapStateToProps = function (state) {
   return {
     user: getUser(state),
   };
+};
+
+const mapDispatchToProps = {
+  insertSingleTask,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(InsertTask);
