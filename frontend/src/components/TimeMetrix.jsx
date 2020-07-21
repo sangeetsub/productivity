@@ -9,7 +9,11 @@ import AddBoxIcon from "@material-ui/icons/AddBox";
 import { makeStyles } from "@material-ui/core/styles";
 import AppDialog from "./AppDialog";
 import { fetchTasks, getAllTasks } from "../services/tasks";
-import { displayInsertTask, setDisplayInsertTask, setDisplayToast } from "../services/appState";
+import {
+  displayInsertTask,
+  setDisplayInsertTask,
+  setDisplayToast,
+} from "../services/appState";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -62,8 +66,8 @@ function TimeMetrix(props) {
     );
   };
   const handleAddTaskButton = () => {
-   const {setDisplayInsertTask} = props; 
-   setDisplayInsertTask(true);
+    const { setDisplayInsertTask } = props;
+    setDisplayInsertTask(true);
   };
   const componentHeader = () => {
     return (
