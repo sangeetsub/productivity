@@ -5,6 +5,7 @@ import {
   deleteATask,
 } from "../store/Actions/tasks";
 import { taskQuarterMapper } from "../utils/task";
+import { setDisplayToast, setDisplayInsertTask } from "../services/appState";
 
 const fetchTasks = (userId) => (dispatch) => {
   axios
@@ -47,6 +48,14 @@ const insertSingleTask = (task) => (dispatch) => {
       const quarter = taskQuarterMapper[task.urgency][task.importancy];
       const addedTask = response.data;
       dispatch(insertATask(addedTask, quarter));
+      dispatch(setDisplayInsertTask(false));
+      dispatch(
+        setDisplayToast({
+          open: true,
+          message: "Your task has been inserted",
+          variant: "outlined",
+        })
+      );
     })
     .catch(function (error) {
       console.log(error);
@@ -64,6 +73,14 @@ const deleteSingleTask = (task) => (dispatch) => {
     .then(function (response) {
       const quarter = taskQuarterMapper[task.urgency][task.importancy];
       dispatch(deleteATask(task._id, quarter));
+      dispatch(
+        setDisplayToast({
+          open: true,
+          message: "Task deleted successfully",
+          severity: "warning",
+          variant: "outlined",
+        })
+      );
     })
     .catch(function (error) {})
     .then(function () {

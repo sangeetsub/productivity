@@ -4,11 +4,12 @@ import TaskComponent from "./TaskComponent";
 import { Grid, Button, Typography } from "@material-ui/core";
 import InsertTask from "./forms/InsertTask";
 import { getUser, isAuthenticated } from "../services/auth";
-import {  taskDescriptionsByQuarter } from "../utils/task";
+import { taskDescriptionsByQuarter } from "../utils/task";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import { makeStyles } from "@material-ui/core/styles";
 import AppDialog from "./AppDialog";
 import { fetchTasks, getAllTasks } from "../services/tasks";
+import { displayInsertTask, setDisplayInsertTask, setDisplayToast } from "../services/appState";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -24,11 +25,8 @@ const useStyles = makeStyles(() => ({
 }));
 
 function TimeMetrix(props) {
-  const [openInsert, setOpenInsert] = useState(false);
-
   const classes = useStyles();
-
-  const { fetchTasks, myTasks } = props;
+  const { fetchTasks, myTasks, openInsert } = props;
 
   useEffect(() => {
     if (props.user && props.user.id) {
@@ -64,7 +62,8 @@ function TimeMetrix(props) {
     );
   };
   const handleAddTaskButton = () => {
-    setOpenInsert(true);
+   const {setDisplayInsertTask} = props; 
+   setDisplayInsertTask(true);
   };
   const componentHeader = () => {
     return (
@@ -104,7 +103,7 @@ function TimeMetrix(props) {
           <AppDialog
             title="Insert Task"
             open={openInsert}
-            onClose={() => setOpenInsert(false)}
+            onClose={() => props.setDisplayInsertTask(false)}
             body={<InsertTask />}
           />
         </React.Fragment>
@@ -122,11 +121,13 @@ const mapStateToProps = function (state) {
     user: getUser(state),
     isAuth: isAuthenticated(state),
     myTasks: getAllTasks(state),
+    openInsert: displayInsertTask(state),
   };
 };
 
 const mapDispatchToProps = {
   fetchTasks,
+  setDisplayInsertTask,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimeMetrix);

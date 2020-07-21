@@ -5,20 +5,12 @@ import Dialog from "@material-ui/core/Dialog";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import MuiDialogActions from "@material-ui/core/DialogActions";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 
 const styles = (theme) => ({
   root: {
     margin: 0,
     padding: theme.spacing(2),
-  },
-  closeButton: {
-    position: "absolute",
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500],
   },
 });
 
@@ -45,7 +37,18 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 function ConfirmDialogModal(props) {
-  const { title, onClose, confirmText, open, onAgree } = props;
+  const {
+    title,
+    onClose,
+    confirmText,
+    open,
+    onAgree,
+    agreeText,
+    disagreeText,
+  } = props;
+
+  const agreeDisplayText = agreeText ? agreeText : "Yes";
+  const disagreeDisplayText = disagreeText ? disagreeText : "No";
 
   return (
     <div>
@@ -59,9 +62,7 @@ function ConfirmDialogModal(props) {
         </DialogTitle>
         <DialogContent dividers>{confirmText}</DialogContent>
         <DialogActions>
-          <Button onClick={onClose} color="#FF0078">
-            No
-          </Button>
+          <Button onClick={onClose}>{disagreeDisplayText}</Button>
           <Button
             onClick={() => {
               onAgree();
@@ -70,7 +71,7 @@ function ConfirmDialogModal(props) {
             color="primary"
             autoFocus
           >
-            Yes
+            {agreeDisplayText}
           </Button>
         </DialogActions>
       </Dialog>

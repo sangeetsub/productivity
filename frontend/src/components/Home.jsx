@@ -7,16 +7,22 @@ import Signin from "./Auth/Signin";
 import Signup from "./Auth/Signup";
 import TimeMetrix from "./TimeMetrix";
 import TaskDetails from "./TaskDetails";
-import BackgroundPage from './BackgroundPage'
+import BackgroundPage from "./BackgroundPage";
 import { getUser, isAuthenticated } from "../services/auth";
+import ToastMessage from "./ToastMessage";
 
 function Home(props) {
-  const {isAuth} = props; 
+  const { isAuth } = props;
   return (
     <Router>
       <HeaderBar />
+      <ToastMessage />
       <Switch>
-        <Route exact path="/" component={ isAuth ? TimeMetrix : BackgroundPage} />
+        <Route
+          exact
+          path="/"
+          component={isAuth ? TimeMetrix : BackgroundPage}
+        />
         <Route exact path="/task/:id" component={TaskDetails} />
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/signin" component={Signin} />
@@ -29,7 +35,7 @@ function Home(props) {
 
 const mapStateToProps = function (state) {
   return {
-    isAuth : isAuthenticated(state)
+    isAuth: isAuthenticated(state),
   };
 };
 

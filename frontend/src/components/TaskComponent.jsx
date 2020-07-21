@@ -115,6 +115,7 @@ function TaskComponent(props) {
               aria-label="Delete Task"
               component="span"
               size="small"
+              color="primary"
               onClick={() => setOpenDeleteModal(true)}
             >
               <DeleteIcon />

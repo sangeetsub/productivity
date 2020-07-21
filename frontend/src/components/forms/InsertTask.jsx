@@ -163,6 +163,7 @@ function InsertTask(props) {
 const mapStateToProps = function (state) {
   return {
     user: getUser(state),
+   
   };
 };
 
