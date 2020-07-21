@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import axios from "axios";
 import TaskComponent from "./TaskComponent";
-
 import { Grid, Button, Typography } from "@material-ui/core";
 import InsertTask from "./forms/InsertTask";
 import { getUser, isAuthenticated } from "../services/auth";
-import { taskInQArray, taskDescriptionsByQuarter } from "../utils/task";
-import { Link } from "react-router-dom";
-import background from "../images/background.jpg";
+import {  taskDescriptionsByQuarter } from "../utils/task";
 import AddBoxIcon from "@material-ui/icons/AddBox";
-import { makeStyles, withTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import AppDialog from "./AppDialog";
 import { fetchTasks, getAllTasks } from "../services/tasks";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     width: "98%",
     margin: "auto",
@@ -104,9 +100,6 @@ function TimeMetrix(props) {
             <Grid item xs={3}>
               {getQSpecificTasks(4)}
             </Grid>
-            {/* <Grid item xs={6}>
-            <InsertTask />
-          </Grid> */}
           </Grid>
           <AppDialog
             title="Insert Task"
@@ -117,7 +110,7 @@ function TimeMetrix(props) {
         </React.Fragment>
       ) : (
         <div>
-          <img src={background} width={"100%"} />;
+          <h2> You're not authenticated.</h2>
         </div>
       )}
     </div>

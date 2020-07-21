@@ -41,8 +41,16 @@ const prepareQuarters = (data) => {
 };
 
 const insertSingleTask = (task) => (dispatch) => {
-  const quarter = taskQuarterMapper[task.urgency][task.importancy];
-  dispatch(insertATask(task, quarter));
+  axios
+    .post("http://localhost:8000/task/insert", task)
+    .then(function (response) {
+      const quarter = taskQuarterMapper[task.urgency][task.importancy];
+      const addedTask = response.data;
+      dispatch(insertATask(addedTask, quarter));
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 };
 
 const getAllTasks = (state) => {
@@ -51,8 +59,16 @@ const getAllTasks = (state) => {
 };
 
 const deleteSingleTask = (task) => (dispatch) => {
-  const quarter = taskQuarterMapper[task.urgency][task.importancy];
-  dispatch(deleteATask(task._id, quarter));
+  axios
+    .delete(`http://localhost:8000/task/tasks/id?${task._id}`)
+    .then(function (response) {
+      const quarter = taskQuarterMapper[task.urgency][task.importancy];
+      dispatch(deleteATask(task._id, quarter));
+    })
+    .catch(function (error) {})
+    .then(function () {
+      // always executed
+    });
 };
 
 export { fetchTasks, insertSingleTask, getAllTasks, deleteSingleTask };

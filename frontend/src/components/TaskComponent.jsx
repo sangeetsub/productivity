@@ -42,19 +42,7 @@ function TaskComponent(props) {
   const { deleteSingleTask} = props; 
 
   const deleteTask = (task) => {
-    axios
-      .delete(`http://localhost:8000/task/tasks/id?${task._id}`)
-      .then(function (response) {
-        console.log(response)
-        setAlert({ type: "success", message: "Your task has been deleted." });
-        deleteSingleTask(task)
-      })
-      .catch(function (error) {
-        setAlert({ type: "error", message: "Your task could not be deleted." });
-      })
-      .then(function () {
-        // always executed
-      });
+    deleteSingleTask(task)
   };
 
   const wrapLongText = (text, limit) => {

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import Button from "@material-ui/core/Button";
-import axios from "axios";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 
@@ -44,29 +43,17 @@ function InsertTask(props) {
   const [urgency, setUrgency] = useState("0");
   const [description, setDescription] = useState("");
 
-  const [value, setValue] = React.useState("female");
-
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
-
   const { user, insertSingleTask } = props;
 
   const handleInsertTask = () => {
-    axios
-      .post("http://localhost:8000/task/insert", {
-        name: taskName,
-        description: description,
-        importancy: importancy,
-        urgency: urgency,
-        userId: user.id,
-      })
-      .then(function (response) {
-        insertSingleTask(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    const task = {
+      name: taskName,
+      description: description,
+      importancy: importancy,
+      urgency: urgency,
+      userId: user.id,
+    };
+    insertSingleTask(task);
   };
 
   const handleImportancy = (event) => {
