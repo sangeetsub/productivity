@@ -9,19 +9,9 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant={props.variant} {...props} />;
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    "& > * + *": {
-      marginTop: theme.spacing(2),
-    },
-  },
-}));
-
 function ToastMessage(props) {
   const { toastData } = props;
   const { open, message, variant, length, severity } = toastData;
-  const classes = useStyles();
 
   const handleClose = () => {
     const { setDisplayToast } = props;
@@ -31,20 +21,22 @@ function ToastMessage(props) {
   const origin = { vertical: "bottom", horizontal: "center" };
 
   return (
-    <div className={classes.root}>
-      <Snackbar
-        open={open}
-        autoHideDuration={length ? length : 1000}
-        anchorOrigin={origin}
-        onClose={handleClose}
-      >
-        <Alert
-          severity={severity ? severity : "success"}
-          variant={variant ? variant : "filled"}
+    <div>
+      {open && (
+        <Snackbar
+          open={open}
+          autoHideDuration={length ? length : 1000}
+          anchorOrigin={origin}
+          onClose={handleClose}
         >
-          {message}
-        </Alert>
-      </Snackbar>
+          <Alert
+            severity={severity ? severity : "success"}
+            variant={variant ? variant : "filled"}
+          >
+            {message}
+          </Alert>
+        </Snackbar>
+      )}
     </div>
   );
 }

@@ -7,10 +7,10 @@ import {
 
 const defaultToastData = {
   open: false,
-  message: "",
-  variant: "filled",
-  length: 3000,
-  severity: "",
+  message: null,
+  variant: null,
+  length: null,
+  severity: null,
 };
 
 const initialState = {

@@ -16,17 +16,19 @@ function Home(props) {
   return (
     <Router>
       <HeaderBar />
-      <ToastMessage />
-      <Switch>
-        <Route
-          exact
-          path="/"
-          component={isAuth ? TimeMetrix : BackgroundPage}
-        />
-        <Route exact path="/task/:id" component={TaskDetails} />
-        <Route exact path="/signup" component={Signup} />
-        <Route exact path="/signin" component={Signin} />
-      </Switch>
+      <div style={{marginTop : '65px'}}>
+        <ToastMessage />
+        <Switch>
+          <Route
+            exact
+            path="/"
+            component={isAuth ? TimeMetrix : BackgroundPage}
+          />
+          <Route exact path="/task/:id" component={TaskDetails} />
+          <Route exact path="/signup" component={Signup} />
+          <Route exact path="/signin" component={Signin} />
+        </Switch>
+      </div>
 
       <h6> Five Choices of Extraordinary Productivity. </h6>
     </Router>
